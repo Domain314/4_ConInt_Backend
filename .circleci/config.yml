@@ -26,13 +26,13 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Docker DB Image
-          command: docker-compose up --build
+          command: docker-compose build
   deliver:
     executor: docker-executor
     steps:
       - checkout
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push domain314/conint_backend
+      - run: docker-compose build --push domain314/conint_backend
   deploy:
     executor: docker-executor
     steps:
@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Deploy to AWS
           command: |
-            # Here, add commands to deploy to AWS using aws cli or any other tool you're using
+            # deploy to AWS
 
 
 workflows:
