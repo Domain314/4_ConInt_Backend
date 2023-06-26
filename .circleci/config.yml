@@ -5,7 +5,7 @@ executors:
       - image: node:16
   docker-executor:
     docker:
-      - image: docker:latest
+      - image: circleci/node:16
 jobs:
   lint:
     executor: node-executor
