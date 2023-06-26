@@ -67,28 +67,28 @@ workflows:
             branches:
               only: main
       - test:
-          filters:
-            branches:
-              only: main
-      - build_db:
+          requires:
+            - lint
           filters:
             branches:
               only: main
       - build_app:
-          filters:
-            branches:
-              only: main
-      - deliver_db:
+          requires:
+            - test
           filters:
             branches:
               only: main
       - deliver_app:
+          requires:
+            - build_app
           filters:
             branches:
               only: main
   deploy:
     jobs:
       - deploy:
+          requires:
+            - deliver_app
           filters:
             branches:
               only: deploy/production
