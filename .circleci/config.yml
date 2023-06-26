@@ -31,8 +31,15 @@ jobs:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push your-dockerhub-name/your-image-name
   deploy:
+    executor: docker-executor
     steps:
-      - run: # Here, add commands to deploy to AWS using aws cli
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Deploy to AWS
+          command: |
+            # Here, add commands to deploy to AWS using aws cli or any other tool you're using
+
 
 workflows:
   version: 2
