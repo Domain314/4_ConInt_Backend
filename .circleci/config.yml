@@ -19,17 +19,32 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test
-  build:
+  build_db:
     executor: docker-executor
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker build -t domain314/conint_backend .
-  deliver:
+      - run:
+          name: Build Docker DB Image
+          command: docker build -f Dockerfile-db -t your-dockerhub-name/your-db-image-name .
+  build_app:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker App Image
+          command: docker build -f Dockerfile-app -t your-dockerhub-name/your-app-image-name .
+  deliver_db:
     executor: docker-executor
     steps:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push domain314/conint_backend
+      - run: docker push your-dockerhub-name/your-db-image-name
+  deliver_app:
+    executor: docker-executor
+    steps:
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: docker push your-dockerhub-name/your-app-image-name
   deploy:
     executor: docker-executor
     steps:
