@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker build -t your-dockerhub-name/your-image-name .
+      - run: docker build -t domain314/conint_backend .
   deliver:
     executor: docker-executor
     steps:
