@@ -1,4 +1,7 @@
 version: 2.1
+orbs:
+  node: circleci/node@5.1.0
+  docker: cimg/node:20.3.1
 executors:
   node-executor:
     docker:
@@ -8,19 +11,22 @@ executors:
       - image: cimg/node:20.3.1
 jobs:
   lint:
-    executor: node-executor
+    executor: 
+      name: node/default
     steps:
       - checkout
       - run: npm install
       - run: npm run lint
   test:
-    executor: node-executor
+    executor: 
+      name: node/default
     steps:
       - checkout
       - run: npm install
       - run: npm run test
   build:
-    executor: docker-executor
+    executor: 
+      name: docker/default
     steps:
       - checkout
       - setup_remote_docker
@@ -28,13 +34,15 @@ jobs:
           name: Build Docker DB Image
           command: docker-compose build
   deliver:
-    executor: docker-executor
+    executor: 
+      name: docker/default
     steps:
       - checkout
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker-compose build --push domain314/conint_backend
   deploy:
-    executor: docker-executor
+    executor: 
+      name: docker/default
     steps:
       - checkout
       - setup_remote_docker
