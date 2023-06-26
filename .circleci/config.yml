@@ -26,7 +26,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Docker DB Image
-          command: docker build -f Dockerfile-db -t your-dockerhub-name/your-db-image-name .
+          command: docker build -f Dockerfile-db -t domain314/conint_backend .
   build_app:
     executor: docker-executor
     steps:
@@ -34,17 +34,17 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Docker App Image
-          command: docker build -f Dockerfile-app -t your-dockerhub-name/your-app-image-name .
+          command: docker build -f Dockerfile-app -t domain314/conint_backend .
   deliver_db:
     executor: docker-executor
     steps:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push your-dockerhub-name/your-db-image-name
+      - run: docker push domain314/conint_backend
   deliver_app:
     executor: docker-executor
     steps:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push your-dockerhub-name/your-app-image-name
+      - run: docker push domain314/conint_backend
   deploy:
     executor: docker-executor
     steps:
