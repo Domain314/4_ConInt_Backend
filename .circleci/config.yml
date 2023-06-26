@@ -72,9 +72,21 @@ workflows:
           filters:
             branches:
               only: main
+      - build_db:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
       - build_app:
           requires:
             - test
+          filters:
+            branches:
+              only: main
+      - deliver_db:
+          requires:
+            - build_db
           filters:
             branches:
               only: main
