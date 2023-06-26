@@ -1,0 +1,13 @@
+# Dockerfile-db
+
+# Use the official MariaDB image from Docker Hub
+FROM mariadb:latest
+
+# Environment variables
+ENV MYSQL_ROOT_PASSWORD=root-pw
+ENV MYSQL_DATABASE=tododot
+ENV MYSQL_USER=todo-admin
+ENV MYSQL_PASSWORD=admin-pw
+
+# Expose the MariaDB port
+EXPOSE 3306

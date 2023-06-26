@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  db:
+    build: 
+      context: .
+      dockerfile: Dockerfile-db
+    environment: 
+      MYSQL_ROOT_PASSWORD: root-pw
+      MYSQL_DATABASE: tododot
+      MYSQL_USER: todo-admin
+      MYSQL_PASSWORD: admin-pw
+    ports:
+      - 3306:3306
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile-app
+    environment: 
+      - DB_DIALECT=mariadb
+      - DB_USER=todo-admin
+      - DB_PW=admin-pw
+      - DB_HOST=db:3306
+      - DB_NAME=tododot
+    ports:
+      - 3000:3000
+    depends_on:
+      - db

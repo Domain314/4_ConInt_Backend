@@ -1,0 +1,27 @@
+# Dockerfile-app
+
+# Use a Node.js image from Docker Hub
+FROM node:16
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies by copying
+# package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy app source code
+COPY . .
+
+# Install wait-for-it
+RUN apt-get update && apt-get install -y wait-for-it
+
+# Expose the application port
+EXPOSE 3000
+
+# Use wait-for-it to wait for DB to be ready
+CMD wait-for-it ${DB_HOST} --timeout=30 --strict -- \
+    npm run start
