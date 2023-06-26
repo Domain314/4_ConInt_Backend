@@ -38,11 +38,17 @@ jobs:
   deliver_db:
     executor: docker-executor
     steps:
+      - checkout
+      - setup_remote_docker:
+          version: 24.0.0
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push domain314/conint_backend
   deliver_app:
     executor: docker-executor
     steps:
+      - checkout
+      - setup_remote_docker:
+          version: 24.0.0
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push domain314/conint_backend
   deploy:
