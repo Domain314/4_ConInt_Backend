@@ -18,8 +18,7 @@ jobs:
       - run: npm install
       - run: npm run test
   build:
-    executor: 
-      name: docker
+    executor: docker/docker
     steps:
       - checkout
       - setup_remote_docker
@@ -27,15 +26,13 @@ jobs:
           name: Build Docker DB Image
           command: docker-compose build
   deliver:
-    executor: 
-      name: docker
+    executor: docker/docker
     steps:
       - checkout
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker-compose build --push domain314/conint_backend
   deploy:
-    executor: 
-      name: docker
+    executor: docker/docker
     steps:
       - checkout
       - setup_remote_docker
