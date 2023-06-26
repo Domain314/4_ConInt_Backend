@@ -19,29 +19,15 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test
-  build_db:
+  build:
     executor: docker-executor
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build Docker DB Image
-          command: docker build -f Dockerfile-db -t domain314/conint_backend .
-  build_app:
-    executor: docker-executor
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build Docker App Image
-          command: docker build -f Dockerfile-app -t domain314/conint_backend .
-  deliver_db:
-    executor: docker-executor
-    steps:
-      - checkout
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push domain314/conint_backend
-  deliver_app:
+          command: docker-compose up --build
+  deliver:
     executor: docker-executor
     steps:
       - checkout
@@ -72,33 +58,21 @@ workflows:
           filters:
             branches:
               only: main
-      - build_db:
+      - build:
           requires:
             - test
           filters:
             branches:
               only: main
-      - build_app:
+      - deliver:
           requires:
-            - test
-          filters:
-            branches:
-              only: main
-      - deliver_db:
-          requires:
-            - build_db
-          filters:
-            branches:
-              only: main
-      - deliver_app:
-          requires:
-            - build_app
+            - build
           filters:
             branches:
               only: main
       - deploy:
           requires:
-            - deliver_app
+            - deliver
           filters:
             branches:
               only: deploy/production
