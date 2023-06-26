@@ -68,11 +68,19 @@ workflows:
           filters:
             branches:
               only: main
-      - build:
+      - build-db:
           filters:
             branches:
               only: main
-      - deliver:
+      - build-app:
+          filters:
+            branches:
+              only: main
+      - deliver-db:
+          filters:
+            branches:
+              only: main
+      - deliver-app:
           filters:
             branches:
               only: main
