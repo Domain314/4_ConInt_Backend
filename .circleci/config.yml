@@ -5,7 +5,7 @@ executors:
       - image: node:16
   docker-executor:
     docker:
-      - image: docker:24.0.0
+      - image: docker:latest
 jobs:
   lint:
     executor: node-executor
