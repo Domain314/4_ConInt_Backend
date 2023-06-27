@@ -29,7 +29,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker build Dockerfile-db -t domain314/conint_backend_db
+      - run: docker build -f Dockerfile-db . -t domain314/conint_backend_db
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push domain314/conint_backend_db:latest
   deliver-app:
@@ -38,7 +38,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker build Dockerfile-app -t domain314/conint_backend
+      - run: docker build -f Dockerfile-app . -t domain314/conint_backend
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push domain314/conint_backend:latest
   deploy:
