@@ -42,13 +42,11 @@ jobs:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push domain314/conint_backend:latest
   deploy:
+    executor: 
+      name: node/default
     steps:
       - checkout
-      - setup_remote_docker
-      - run:
-          name: Deploy to AWS
-          command: |
-            # deploy to AWS
+      - run: npm i
 
 
 workflows:
@@ -85,7 +83,8 @@ workflows:
               only: main
       - deploy:
           requires:
-            - deliver
+            - deliver-db
+            - deliver-app
           filters:
             branches:
               only: main
