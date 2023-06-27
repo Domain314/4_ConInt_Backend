@@ -74,4 +74,4 @@ workflows:
             - deliver
           filters:
             branches:
-              only: deploy/production
+              only: main
