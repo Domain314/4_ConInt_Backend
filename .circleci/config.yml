@@ -95,9 +95,9 @@ workflows:
             branches:
               only: main
       - deploy:
-          # requires:
-          #   - deliver-db
-          #   - deliver-app
+          requires:
+            - deliver-db
+            - deliver-app
           filters:
             branches:
               only: main
