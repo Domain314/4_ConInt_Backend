@@ -23,24 +23,24 @@ jobs:
   #     - checkout
   #     - setup_remote_docker
     
-  deliver-db:
-    docker: 
-        - image: cimg/node:20.3.1
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: docker build -f Dockerfile-db . -t domain314/conint_backend_db
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push domain314/conint_backend_db:latest
-  deliver-app:
-    docker: 
-        - image: cimg/node:20.3.1
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: docker build -f Dockerfile-app . -t domain314/conint_backend
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push domain314/conint_backend:latest
+  # deliver-db:
+  #   docker: 
+  #       - image: cimg/node:20.3.1
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run: docker build -f Dockerfile-db . -t domain314/conint_backend_db
+  #     - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+  #     - run: docker push domain314/conint_backend_db:latest
+  # deliver-app:
+  #   docker: 
+  #       - image: cimg/node:20.3.1
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run: docker build -f Dockerfile-app . -t domain314/conint_backend
+  #     - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+  #     - run: docker push domain314/conint_backend:latest
   deploy:
     executor: 
       name: node/default
@@ -83,22 +83,22 @@ workflows:
       #     filters:
       #       branches:
       #         only: main
-      - deliver-db:
-          # requires:
-            # - build
-          filters:
-            branches:
-              only: main
-      - deliver-app:
-          # requires:
-          #   - build
-          filters:
-            branches:
-              only: main
+      # - deliver-db:
+      #     # requires:
+      #       # - build
+      #     filters:
+      #       branches:
+      #         only: main
+      # - deliver-app:
+      #     # requires:
+      #     #   - build
+      #     filters:
+      #       branches:
+      #         only: main
       - deploy:
-          requires:
-            - deliver-db
-            - deliver-app
+          # requires:
+          #   - deliver-db
+          #   - deliver-app
           filters:
             branches:
               only: main
