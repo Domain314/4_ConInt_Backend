@@ -63,8 +63,6 @@ jobs:
             sudo docker pull domain314/conint_backend:latest && 
             sudo docker run -d --name conint_backend_app -p 8080:8080 domain314/conint_backend:latest'
 
-
-
 workflows:
   version: 2
   build-test-deliver-and-deploy:
