@@ -23,5 +23,5 @@ RUN apt-get update && apt-get install -y wait-for-it
 EXPOSE 3000
 
 # Use wait-for-it to wait for DB to be ready
-CMD wait-for-it ${DB_HOST} --timeout=30 --strict -- \
+CMD wait-for-it mariadb:3306 --timeout=30 --strict -- \
     npm run start
