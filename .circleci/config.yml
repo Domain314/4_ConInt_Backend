@@ -52,8 +52,16 @@ jobs:
       - run:
           name: Deploy to AWS EC2
           command: |
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_a32dbc05109566f2cba2e75fe5df588f ubuntu@ec2-44-195-229-139.compute-1.amazonaws.com 'sudo docker pull domain314/conint_backend_db:latest && sudo docker run -d -p 3306:3306 domain314/conint_backend_db:latest'
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_a32dbc05109566f2cba2e75fe5df588f ubuntu@ec2-44-195-229-139.compute-1.amazonaws.com 'sudo docker pull domain314/conint_backend:latest && sudo docker run -d -p 8080:8080 domain314/conint_backend:latest'
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_a32dbc05109566f2cba2e75fe5df588f ubuntu@ec2-44-195-229-139.compute-1.amazonaws.com '
+            sudo docker stop conint_backend_db || true &&
+            sudo docker rm conint_backend_db || true &&
+            sudo docker pull domain314/conint_backend_db:latest && 
+            sudo docker run -d --name conint_backend_db -p 3306:3306 domain314/conint_backend_db:latest'
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_a32dbc05109566f2cba2e75fe5df588f ubuntu@ec2-44-195-229-139.compute-1.amazonaws.com '
+            sudo docker stop conint_backend_app || true &&
+            sudo docker rm conint_backend_app || true &&
+            sudo docker pull domain314/conint_backend:latest && 
+            sudo docker run -d --name conint_backend_app -p 8080:8080 domain314/conint_backend:latest'
 
 
 
