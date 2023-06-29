@@ -56,7 +56,7 @@ jobs:
             sudo docker stop conint_backend_db || true &&
             sudo docker rm conint_backend_db || true &&
             sudo docker pull domain314/conint_backend_db:latest && 
-            echo "$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE $MYSQL_USER $MYSQL_PASSWORD"
+            echo "mysql root pw: $MYSQL_ROOT_PASSWORD $MYSQL_DATABASE $MYSQL_USER $MYSQL_PASSWORD"
             sudo docker run --name conint_backend_db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD -e MYSQL_DATABASE=$MYSQL_DATABASE -e MYSQL_USER=$MYSQL_USER -e MYSQL_PASSWORD=$MYSQL_PASSWORD domain314/conint_backend_db:latest && 
             sudo docker stop conint_backend_app || true &&
             sudo docker rm conint_backend_app || true &&
