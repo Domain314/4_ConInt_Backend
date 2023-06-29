@@ -60,7 +60,7 @@ jobs:
             sudo docker stop conint_backend_app || true &&
             sudo docker rm conint_backend_app || true &&
             sudo docker pull domain314/conint_backend:latest && 
-            sudo docker run --name conint_backend_app -p 8080:8080 -d -e DB_DIALECT=$DB_DIALECT -e DB_USER=$DB_USER -e DB_PW=$DB_PW -e DB_HOST=$DB_HOST -e DB_NAME=$DB_NAME domain314/conint_backend:latest'
+            sudo docker run --name conint_backend_app -p 8080:8080 -h localhost -e DB_DIALECT=$DB_DIALECT -e DB_USER=$DB_USER -e DB_PW=$DB_PW -e DB_HOST=$DB_HOST -e DB_NAME=$DB_NAME domain314/conint_backend:latest'
 
 workflows:
   version: 2
