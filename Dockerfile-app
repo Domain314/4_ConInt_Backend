@@ -1,7 +1,7 @@
 # Dockerfile-app
 
 # Use a Node.js image from Docker Hub
-FROM node:16
+FROM node:20.3
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -23,5 +23,5 @@ RUN apt-get update && apt-get install -y wait-for-it
 EXPOSE 3000
 
 # Use wait-for-it to wait for DB to be ready
-CMD wait-for-it 44.195.229.139:3306 --timeout=30 --strict -- \
+CMD wait-for-it conint_backend_db:3306 --timeout=30 --strict -- \
     npm run start

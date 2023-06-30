@@ -53,6 +53,8 @@ jobs:
           name: Deploy to AWS EC2
           command: |
             echo '
+            sudo docker network rm conint_network || true &&
+            sudo docker network create conint_network &&
             sudo docker stop conint_backend_db || true &&
             sudo docker rm conint_backend_db || true &&
             sudo docker pull domain314/conint_backend_db:latest && 
