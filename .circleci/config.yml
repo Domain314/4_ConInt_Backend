@@ -58,11 +58,11 @@ jobs:
             sudo docker stop conint_backend_db || true &&
             sudo docker rm conint_backend_db || true &&
             sudo docker pull domain314/conint_backend_db:latest && 
-            sudo docker run -d --name conint_backend_db -p 3306:3306 -e MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD' -e MYSQL_DATABASE='$MYSQL_DATABASE' -e MYSQL_USER='$MYSQL_USER' -e MYSQL_PASSWORD='$MYSQL_PASSWORD' domain314/conint_backend_db:latest && 
+            sudo docker run -d --name conint_backend_db --network=conint_network -p 3306:3306 -e MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD' -e MYSQL_DATABASE='$MYSQL_DATABASE' -e MYSQL_USER='$MYSQL_USER' -e MYSQL_PASSWORD='$MYSQL_PASSWORD' domain314/conint_backend_db:latest && 
             sudo docker stop conint_backend_app || true &&
             sudo docker rm conint_backend_app || true &&
             sudo docker pull domain314/conint_backend:latest && 
-            sudo docker run -d --name conint_backend_app -p 8080:8080 -e DB_DIALECT='$DB_DIALECT' -e DB_USER='$DB_USER' -e DB_PW='$DB_PW' -e DB_HOST='$DB_HOST' -e DB_NAME='$DB_NAME' domain314/conint_backend:latest
+            sudo docker run -d --name conint_backend_app --network=conint_network -p 8080:8080 -e DB_DIALECT='$DB_DIALECT' -e DB_USER='$DB_USER' -e DB_PW='$DB_PW' -e DB_HOST='$DB_HOST' -e DB_NAME='$DB_NAME' domain314/conint_backend:latest
             ' > deploy_script.sh
             chmod +x deploy_script.sh
             scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_a32dbc05109566f2cba2e75fe5df588f deploy_script.sh ubuntu@ec2-44-195-229-139.compute-1.amazonaws.com:/tmp
