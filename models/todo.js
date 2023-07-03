@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    sequelize.define('todo', {
+    const Todo = sequelize.define('todo', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -16,6 +16,17 @@ module.exports = (sequelize) => {
             allowNull: false,
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        date: {
+            allowNull: false,
+            type: DataTypes.STRING
         }
     });
+
+    Todo.associate = () => {
+        const User = sequelize.models.user;
+        Todo.belongsTo(User, { foreignKey: { allowNull: false } });
+    };
+
+    return Todo;
 };

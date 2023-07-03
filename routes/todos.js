@@ -8,27 +8,57 @@ const router = express.Router();
 
 /* Read all todos */
 router.get('/', async function geta(req, res, next) {
-    const todos = await db.models.todo.findAll();
+    // if there is no userId provided, return an error
+    if (!req.query.userId) {
+        console.log('no user ID');
+
+        return res.status(400).json({ error: "userId is required" });
+    }
+
+    const todos = await db.models.todo.findAll({
+        where: {
+            userId: req.query.userId // only get todos that belong to the user
+        }
+    });
 
     res.status(200).json(todos);
 });
+
 
 /* Create todos */
 router.post('/',
     body('name').not().isEmpty(),
     body('name').isLength({ max: 255 }),
+    body('userId').not().isEmpty().isNumeric(),
     async function posta(req, res, next) {
+        console.log("req", req.path);
+        console.log("req", req.body);
+
+        const user = await db.models.user.findByPk(req.body.userId);
+
+        if (!user) {
+            return res.status(400).json({ error: "User does not exist" });
+        }
+
+        const date = getStringDate();
+        console.log("req", date);
+        console.log("req", getDateFromString(date));
+
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
         const todo = await db.models.todo.create({
-            name: req.body.name
+            name: req.body.name,
+            userId: req.body.userId,
+            date: date
         });
 
         res.status(201).json(todo);
     });
+
 
 // REFACTORING: Created a separate function to handle updating the done status of a todo item, reducing code duplication in PUT /:id/done and DELETE /:id/done .
 async function updateTodoDoneStatus(req, res, doneStatus) {
@@ -56,3 +86,17 @@ router.delete('/:id/done', async function deletea(req, res, next) {
 });
 
 module.exports = router;
+
+// UTILS
+function getStringDate() {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+
+    return yyyy + '-' + mm + '-' + dd;
+}
+
+function getDateFromString(dateString) {
+    return new Date(dateString);
+}

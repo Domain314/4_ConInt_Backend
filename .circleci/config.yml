@@ -69,6 +69,7 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_a32dbc05109566f2cba2e75fe5df588f ubuntu@ec2-44-195-229-139.compute-1.amazonaws.com 'bash /tmp/deploy_script.sh'
             rm deploy_script.sh
 
+
 workflows:
   version: 2
   build-test-deliver-and-deploy:

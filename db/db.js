@@ -11,11 +11,18 @@ const connUrl =
 const db = new Sequelize(connUrl);
 
 const models = [
-    require('../models/todo')
+    require('../models/todo'),
+    require('../models/user')
 ];
 
 for (const model of models) {
     model(db);
+}
+
+for (const model in db.models) {
+    if (db.models[model].associate) {
+        db.models[model].associate();
+    }
 }
 
 module.exports = db;

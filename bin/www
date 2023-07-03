@@ -14,8 +14,6 @@ const DEFAULT_PORT = '3000';
 const DEFAULT_HOST = 'localhost';
 
 async function waitForConnection(db) {
-  console.log(db);
-
   try {
     await db.authenticate();
   } catch (error) {
