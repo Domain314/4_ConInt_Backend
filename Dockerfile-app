@@ -23,5 +23,9 @@ RUN apt-get update && apt-get install -y wait-for-it
 EXPOSE 3000
 
 # Use wait-for-it to wait for DB to be ready
-CMD wait-for-it 4_conint_backend-db-1:3306 --timeout=30 --strict -- \
+# CMD wait-for-it 4_conint_backend-db-1:3306 --timeout=30 --strict -- \
+#     npm run start
+
+CMD wait-for-it conint_backend-db:3306 --timeout=30 --strict -- \
     npm run start
+
