@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/register',
     body('username').not().isEmpty(),
     body('password').not().isEmpty(),
-    async function (req, res, next) {
+    async function register(req, res, next) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -25,7 +25,7 @@ router.post('/register',
 router.post('/login',
     body('username').not().isEmpty(),
     body('password').not().isEmpty(),
-    async function (req, res, next) {
+    async function login(req, res, next) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });

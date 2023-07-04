@@ -2,8 +2,7 @@ const { body, validationResult } = require('express-validator');
 
 const db = require('../db/db');
 
-// REFACTORING: It is recommended to use const and let for better scoping and to avoid potential issues.
-const express = require('express')
+const express = require('express');
 const router = express.Router();
 
 /* Read all todos */
@@ -12,7 +11,7 @@ router.get('/', async function geta(req, res, next) {
     if (!req.query.userId) {
         console.log('no user ID');
 
-        return res.status(400).json({ error: "userId is required" });
+        return res.status(400).json({ error: 'userId is required' });
     }
 
     const todos = await db.models.todo.findAll({
@@ -24,7 +23,6 @@ router.get('/', async function geta(req, res, next) {
     res.status(200).json(todos);
 });
 
-
 /* Create todos */
 router.post('/',
     body('name').not().isEmpty(),
@@ -34,7 +32,7 @@ router.post('/',
         const user = await db.models.user.findByPk(req.body.userId);
 
         if (!user) {
-            return res.status(400).json({ error: "User does not exist" });
+            return res.status(400).json({ error: 'User does not exist' });
         }
 
         const date = getStringDate();
@@ -47,26 +45,24 @@ router.post('/',
         const todo = await db.models.todo.create({
             name: req.body.name,
             userId: req.body.userId,
-            date: date
+            date
         });
 
         res.status(201).json(todo);
     });
 
-
-// REFACTORING: Created a separate function to handle updating the done status of a todo item, reducing code duplication in PUT /:id/done and DELETE /:id/done .
 async function updateTodoDoneStatus(req, res, doneStatus) {
     const pk = req.params.id;
-    let todo = await db.models.todo.findByPk(pk);
+    const todo = await db.models.todo.findByPk(pk);
 
     if (todo == null) {
         res.status(404);
         return;
     }
 
-    todo = await todo.update({ done: doneStatus });
+    const updatedTodo = await todo.update({ done: doneStatus });
 
-    res.status(200).json(todo);
+    res.status(200).json(updatedTodo);
 }
 
 /* Update todos with done */
@@ -83,14 +79,10 @@ module.exports = router;
 
 // UTILS
 function getStringDate() {
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yyyy = today.getFullYear();
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
 
-    return yyyy + '-' + mm + '-' + dd;
-}
-
-function getDateFromString(dateString) {
-    return new Date(dateString);
+    return `${yyyy}-${mm}-${dd}`;
 }
