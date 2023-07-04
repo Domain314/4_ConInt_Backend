@@ -29,11 +29,6 @@ app.use(function handleNotFound(req, res, next) {
     next(createError(404));
 });
 
-app.use((req, res, next) => {
-    console.log(req.method, req.path);
-    next();
-});
-
 // error handler
 app.use(function handleError(err, req, res, next) {
     // set locals, only providing error in development

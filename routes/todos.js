@@ -31,9 +31,6 @@ router.post('/',
     body('name').isLength({ max: 255 }),
     body('userId').not().isEmpty().isNumeric(),
     async function posta(req, res, next) {
-        console.log("req", req.path);
-        console.log("req", req.body);
-
         const user = await db.models.user.findByPk(req.body.userId);
 
         if (!user) {
@@ -41,9 +38,6 @@ router.post('/',
         }
 
         const date = getStringDate();
-        console.log("req", date);
-        console.log("req", getDateFromString(date));
-
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
