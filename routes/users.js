@@ -5,7 +5,7 @@ const router = express.Router();
 
 /* Register user */
 router.post('/register',
-    body('username').not().isEmpty(),
+    body("username").not().isEmpty(),
     body('password').not().isEmpty(),
     async function register(req, res, next) {
         const errors = validationResult(req);
