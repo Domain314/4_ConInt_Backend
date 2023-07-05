@@ -72,40 +72,40 @@ jobs:
 
 workflows:
   version: 2
-  build-test-deliver-and-deploy:
+  backend-jobs:
     jobs:
       - lint:
           filters:
             branches:
-              only: main
+              only: [main, deploy]
       - test:
           requires:
             - lint
           filters:
             branches:
-              only: main
+              only: [main, deploy]
       - build:
           requires:
             - test
           filters:
             branches:
-              only: main
+              only: [main, deploy]
       - deliver-db:
           requires:
             - build
           filters:
             branches:
-              only: main
+              only: [main, deploy]
       - deliver-app:
           requires:
             - build
           filters:
             branches:
-              only: main
+              only: [main, deploy]
       - deploy:
           requires:
             - deliver-db
             - deliver-app
           filters:
             branches:
-              only: main
+              only: deploy
