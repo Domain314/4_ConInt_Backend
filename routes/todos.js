@@ -13,8 +13,6 @@ router.get('/', async function geta(req, res, next) {
         return res.status(400).json({ error: 'userId is required' });
     }
 
-
-
     const todos = await db.models.todo.findAll({
         where: {
             userId: req.query.userId // only get todos that belong to the user
@@ -23,9 +21,6 @@ router.get('/', async function geta(req, res, next) {
 
     res.status(200).json(todos);
 });
-
-
-
 
 /* Create todos */
 router.post('/',
