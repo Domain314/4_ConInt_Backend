@@ -10,7 +10,6 @@ router.get('/', async function geta(req, res, next) {
     // if there is no userId provided, return an error
     if (!req.query.userId) {
         console.log('no user ID');
-
         return res.status(400).json({ error: 'userId is required' });
     }
 
